@@ -2,23 +2,22 @@ using UnityEngine;
 
 public class DriverPlayer : MonoBehaviour
 {
-    [SerializeField] private float _rotateSpeed = 0.1f;
-    [SerializeField] private float _moveSpeed = 0.01f;
+    [SerializeField] private float _moveSpeed = 10f;
+    [SerializeField] private float _rotateSpeed = 200f;
 
-    private void Update()
+    private void FixedUpdate()
     {
-        MoveForwardBy(_moveSpeed);
-        RotateBy(_rotateSpeed);
+        MoveForwardBy(Input.GetAxis("Vertical"));
+        RotateBy(Input.GetAxis("Horizontal"));
     }
 
-    private void SetRotation(Quaternion newRotation) { transform.rotation = newRotation; }
-    private void RotateBy(float amount)
+    private void RotateBy(float direction)
     {
-        transform.Rotate(0, 0, amount);
+        transform.Rotate(0, 0, -direction * _rotateSpeed * Time.deltaTime);
     }
-    private void MoveForwardBy(float amount)
+    private void MoveForwardBy(float direction)
     {
-        transform.Translate(Vector3.up * amount);
+        transform.Translate(Vector3.up * direction * _moveSpeed * Time.deltaTime);
     }
 
 }
